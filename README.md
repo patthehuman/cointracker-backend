@@ -2,9 +2,20 @@
 
 A backend API system that integrates with the blockchain.info API. Built using Node.js and backed by MongoDB. The system also integrates with RabbitMQ.
 
+## Assumptions
+
+How do we draw conclusions from ambiguity? This project highlights multiple ways to successfully finish, giving the interviewee an option to choose the final outcome. In this project I decided to go with a backend system which interfaces with Blockchain.info APIs. The backend system is complete with ability to add a Bitcoin address, Delete a bitcoin address, retrieve details on a bitcoin address, list all addresses in the database, and fetch transactions associated with an address.
+
+The majority of the system works through CRUD operations, however synchronizing transactions uses a messaging queue to determine new transactions, and synchronize in a background queue. The purpose for using a queue for this task is to allow potential clients to interface with the endpoints without delay. This use case works great for addresses with many transactions.
+
+I chose a simple Nodejs + MongoDB implementation, however, in a production environment I would potentially go for a more robust solution with a relational database such as Postgres and Golang.
+
+The data models in the project mirror the Blockchain.info api responses, except for returning transactions with the /address/{address} endpoint.
+
+
 ## Limitations
 
-- The Blockchain.info API appears to have rate limits relating to limit and offset queries for transactions. There is a 5 second sleep between API calls during transaction sync, however, you may run into this issue during testing.
+- The Blockchain.info API appears to have rate limits relating to the transactions endpoint. I added a 10 second sleep between API calls during transaction sync, however, you may not run into this issue during testing.
 - Blockchair.com API appears to be a paid service model.
 
 ## Features
